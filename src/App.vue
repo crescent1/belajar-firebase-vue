@@ -58,7 +58,6 @@ const isLogin = false;
           <button class="btn btn-outline-success" type="submit">Search</button>
         </form>
 
-        <!-- <button class="btn btn-outline-success ms-1">Login</button> -->
         <RouterLink
           class="btn btn-outline-success m-1"
           to="/login"

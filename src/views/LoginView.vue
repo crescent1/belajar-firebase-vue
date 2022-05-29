@@ -1,47 +1,37 @@
 <script setup>
+import { reactive } from "vue";
 import { UserFirebase } from "@/firebase/UserFirebase.js";
 import { AuthSigninPassword } from "@/firebase/AuthSigninPassword.js";
 import { AuthSignOut } from "@/firebase/AuthSignOut.js";
 // import { useCounterStore } from "@/stores/counter";
-</script>
 
-<script>
-export default {
-  data() {
-    return {
-      // greeting: "Hello World! ",
-      user: {
-        email: "",
-        password: "",
-      },
-    };
-  },
-  methods: {
-    onSubmit() {
-      // const counter = useCounterStore();
-      const credentials = {
-        email: this.user.email,
-        password: this.user.password,
-      };
+const user = reactive({
+  email: "",
+  password: "",
+});
 
-      const firebaseApp = UserFirebase.UserFirebaseConfig();
-      console.log(firebaseApp);
+const onSubmit = function () {
+  const credentials = {
+    email: user.email,
+    password: user.password,
+  };
 
-      const onLogin = AuthSigninPassword.userLogin(credentials);
-      console.log(onLogin);
+  console.log(credentials);
 
-      // counter.isLogin = true;
-      // console.log('a ' + counter.isLogin);
-    },
-    onSignOut() {
-      const firebaseApp = UserFirebase.UserFirebaseConfig();
-      console.log(firebaseApp);
+  const firebaseApp = UserFirebase.UserFirebaseConfig();
+  console.log(firebaseApp);
 
-      const logOut = AuthSignOut.userSignOut();
-      console.log(logOut);
-    },
-  },
+  const onLogin = AuthSigninPassword.userLogin(credentials);
+  console.log(onLogin);
 };
+
+// const onSignOut = function () {
+//   const firebaseApp = UserFirebase.UserFirebaseConfig();
+//   console.log(firebaseApp);
+
+//   const logOut = AuthSignOut.userSignOut();
+//   console.log(logOut);
+// };
 </script>
 
 <template>
@@ -49,7 +39,7 @@ export default {
     <div class="row">
       <div class="col">
         <div class="row justify-content-md-center">
-          <!-- <pre>{{isLogin}}</pre> -->
+          <pre>{{ user }}</pre>
           <div class="card text-center col-md-5 mt-4">
             <div class="card-body">
               <form @submit.prevent="onSubmit">
