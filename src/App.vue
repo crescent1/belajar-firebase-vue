@@ -1,6 +1,9 @@
 <script setup>
 import { RouterLink, RouterView } from "vue-router";
 import FooterView from "./views/path/FooterView.vue";
+// import { useCounterStore } from "@/stores/counter";
+
+const isLogin = false;
 </script>
 
 <template>
@@ -56,11 +59,15 @@ import FooterView from "./views/path/FooterView.vue";
         </form>
 
         <!-- <button class="btn btn-outline-success ms-1">Login</button> -->
-        <RouterLink class="btn btn-outline-success m-1" to="/login"
+        <RouterLink
+          class="btn btn-outline-success m-1"
+          to="/login"
+          v-if="!isLogin"
           >Login</RouterLink
         >
         <button
           @click.prevent="onSignOut"
+          v-if="isLogin"
           class="btn btn-outline-primary my-1"
           type="button"
         >

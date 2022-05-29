@@ -1,20 +1,15 @@
-<script setup></script>
-
-<script>
+<script setup>
 import { UserFirebase } from "@/firebase/UserFirebase.js";
 import { AuthSigninPassword } from "@/firebase/AuthSigninPassword.js";
 import { AuthSignOut } from "@/firebase/AuthSignOut.js";
+// import { useCounterStore } from "@/stores/counter";
+</script>
 
+<script>
 export default {
-  // props : {
-  //     isLogin: {
-  //         type: Boolean,
-  //         required: true
-  //     }
-  // },
   data() {
     return {
-      greeting: "Hello World! ",
+      // greeting: "Hello World! ",
       user: {
         email: "",
         password: "",
@@ -23,6 +18,7 @@ export default {
   },
   methods: {
     onSubmit() {
+      // const counter = useCounterStore();
       const credentials = {
         email: this.user.email,
         password: this.user.password,
@@ -33,6 +29,9 @@ export default {
 
       const onLogin = AuthSigninPassword.userLogin(credentials);
       console.log(onLogin);
+
+      // counter.isLogin = true;
+      // console.log('a ' + counter.isLogin);
     },
     onSignOut() {
       const firebaseApp = UserFirebase.UserFirebaseConfig();
