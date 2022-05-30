@@ -9,7 +9,7 @@ const isLogin = false;
 <template>
   <nav
     class="navbar navbar-expand-lg navbar-light"
-    style="background-color: #e3f2fd"
+    style="background-color: #e3f2fe"
   >
     <div class="container-fluid">
       <!-- <a class="navbar-brand" href="#">Navbar</a> -->
@@ -48,7 +48,7 @@ const isLogin = false;
             >
           </li>
         </ul>
-        <form class="d-flex">
+        <!-- <form class="d-flex">
           <input
             class="form-control me-2"
             type="search"
@@ -56,7 +56,7 @@ const isLogin = false;
             aria-label="Search"
           />
           <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
+        </form> -->
 
         <RouterLink
           class="btn btn-outline-success m-1"
