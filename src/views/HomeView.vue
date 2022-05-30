@@ -1,22 +1,47 @@
 <script setup>
-// import TheWelcome from "@/components/TheWelcome.vue";
-const datas = [
-  {
-    id: 1,
-    title: "title-1",
-    data: "lerem lemen lsdsa lsd alsd s lsd as ldsas ds",
-  },
-  {
-    id: 2,
-    title: "title-2",
-    data: "lerem lemen lsdsa lsd alsd s lsd as ldsas ds",
-  },
-  {
-    id: 3,
-    title: "title-3",
-    data: "lerem lemen lsdsa lsd alsd s lsd as ldsas ds",
-  },
-];
+import { onMounted, reactive, ref } from "vue";
+import {
+  getFirestore,
+  collection,
+  query,
+  orderBy,
+  limit,
+  getDocs,
+} from "firebase/firestore";
+import { UserFirebase } from "@/firebase/UserFirebase.js";
+import SpinnerGif from "../components/SpinnerGif.vue";
+
+const firebaseConfig = UserFirebase.UserFirebaseConfig();
+// const firebaseAuth = getAuth(firebaseApp);
+const db = getFirestore(firebaseConfig.firebaseApp);
+// console.log(db);
+const stores = reactive({
+  data: [],
+});
+const loading = ref(false);
+const errorMessage = ref("");
+
+onMounted(async () => {
+  try {
+    loading.value = true;
+    const storeCollection = collection(db, "stores");
+    const dataQuery = query(storeCollection, orderBy("id", "asc"), limit(5));
+    const dataDocs = await getDocs(dataQuery);
+
+    if (!dataDocs) {
+      errorMessage.value = "Tidak ada data";
+    }
+    // dataDocs.forEach((doc) => {
+    //   test.data.push({ id: doc.id, ...doc.data() });
+    // });
+
+    stores.data = dataDocs.docs.map((doc) => doc.data());
+    loading.value = false;
+  } catch (error) {
+    errorMessage.value = error.message;
+    loading.value = false;
+  }
+});
 </script>
 
 <template>
@@ -61,20 +86,26 @@ const datas = [
           </div> -->
         </div>
       </div>
-      <div class="col-12">
+      <div class="col-12" v-if="loading">
+        <SpinnerGif />
+      </div>
+      <div class="col-12 text-center" v-if="errorMessage">
+        <p class="fw-bold text-danger">{{ errorMessage }}</p>
+      </div>
+      <div class="col-12" v-if="!loading && stores.data.length > 0">
         <div class="row mx-1 my-4 border shadow">
           <h5 class="mt-3">Contoh Data</h5>
           <div
             class="card m-3"
             style="width: 18rem"
-            v-for="(data, index) in datas"
+            v-for="(store, index) in stores.data"
             :key="index"
           >
             <!-- <img src="..." class="card-img-top" alt="..."> -->
             <img alt="Vue logo" class="card-img-top" src="@/assets/logo.svg" />
             <div class="card-body">
-              <h6 class="card-title">{{ data.title }}</h6>
-              <p class="card-text">{{ data.data }}</p>
+              <h6 class="card-title">{{ store.storeName }}</h6>
+              <p class="card-text">{{ store.storeDescription }}</p>
             </div>
           </div>
         </div>

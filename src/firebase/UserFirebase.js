@@ -25,7 +25,8 @@ export class UserFirebase {
     const firebaseAuth = getAuth(firebaseApp);
     // const analytics = getAnalytics(app);
 
-    // return { firebaseApp, firebaseAuth };
-    return firebaseAuth;
+    return { firebaseApp, firebaseAuth };
+    // return firebaseAuth;
+    // return firebaseApp;
   }
 }
