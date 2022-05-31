@@ -4,8 +4,11 @@ import {
   getFirestore,
   collection,
   query,
+  where,
   orderBy,
   limit,
+  startAt,
+  endAt,
   getDocs,
 } from "firebase/firestore";
 import { UserFirebase } from "@/firebase/UserFirebase.js";
@@ -25,7 +28,15 @@ onMounted(async () => {
   try {
     loading.value = true;
     const storeCollection = collection(db, "stores");
-    const dataQuery = query(storeCollection, orderBy("id", "asc"), limit(5));
+    const dataQuery = query(
+      storeCollection,
+      where("storeAddress", ">=", "jl bupati"),
+      where("storeAddress", "<", "jl bupati" + "z")
+      // orderBy("storeAddress"),
+      // startAt("jl bupati"),
+      // endAt("jl bupati" + "\uf8ff")
+      // limit(5)
+    );
     const dataDocs = await getDocs(dataQuery);
 
     if (!dataDocs) {
@@ -39,6 +50,7 @@ onMounted(async () => {
     loading.value = false;
   } catch (error) {
     errorMessage.value = error.message;
+    console.log(errorMessage.value);
     loading.value = false;
   }
 });
