@@ -1,9 +1,10 @@
 <script setup>
 import { RouterLink, RouterView } from "vue-router";
 import FooterView from "./views/path/FooterView.vue";
-// import { useCounterStore } from "@/stores/counter";
+import { useCounterStore } from "@/stores/counter";
 
 const isLogin = false;
+const counter = useCounterStore();
 </script>
 
 <template>
@@ -13,7 +14,9 @@ const isLogin = false;
   >
     <div class="container-fluid">
       <!-- <a class="navbar-brand" href="#">Navbar</a> -->
-      <RouterLink to="/" class="navbar-brand">Navbar</RouterLink>
+      <RouterLink to="/" class="navbar-brand"
+        >Navbar {{ counter.counter }} {{ counter.isLogin }}</RouterLink
+      >
       <button
         class="navbar-toggler"
         type="button"
